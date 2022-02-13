@@ -1,9 +1,9 @@
-<body style="background-color:powderblue;">
+<body>
 
-  <h1> By coding the number crunching, we eliminate the need for crunching. </h1>
+  <h2 style="color:blue;"> By coding the number crunching, we eliminate the need for crunching. </h2>
 
-  <h1> Especially when we are lunching. </h1>
+  <h2 style="color:blue;"> Especially when we are lunching. </h2>
 
-  <h1> Except for when we are apple-crunching - we surely cannot encode our munching! </h1>
+  <h2 style="color:blue;"> Except for when we are apple-crunching - we surely cannot encode our munching! </h2>
   
 </body>
