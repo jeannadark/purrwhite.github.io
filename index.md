@@ -1,4 +1,4 @@
-<body style="border:3px; border-style:solid; border-color:#FF0000; padding: 1em;">
+<body>
 
   <h4 style="color:green;font-family:verdana"> By coding the number crunching, we eliminate the need for crunching. </h4>
 
