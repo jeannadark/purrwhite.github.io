@@ -1,5 +1,5 @@
-Here you can say lots of fun things about your site.
+By coding the number crunching, we eliminate the need for crunching.
 
-Maybe say a some things about yourself.
+Especially when we are lunching.
 
-Or maybe what you plan to blog about.
+Except for when we are apple-crunching - we surely cannot encode our munching!
