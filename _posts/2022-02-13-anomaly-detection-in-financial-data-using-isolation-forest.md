@@ -5,7 +5,7 @@
 ```
 An anomalous bitcoin 
 Makes you wish that you could join
-The city of clever fools,
+The city of clever fools
 Where a smarter person rules.
 ```
 
@@ -28,7 +28,7 @@ In particular, here is how the forest works:
 3. This branching workflow continues until either maximum tree depth is reached or each data point is completely isolated. This process is repeated for each tree in the ensemble.
 4. Depending on the depth required to reach a data point, anomaly scores are assigned. The more negative the score, the more anomalous it is.
 
-![Isolation Forest Structure](images/isoforest.jpg?raw=true "Isolation Forest")
+![Isolation Forest Structure](../images/isoforest.jpg?raw=true "Isolation Forest")
 
 ### Python Implementation
 
@@ -42,7 +42,7 @@ Using the code below, we visualize BTC closing price and trading volume over tim
 df[['Close', 'Volume']].plot(by=df.index, subplots=True, figsize=(10,10))
 ```
 
-![Data Distribution](images/isoforest-visualize-data.jpg?raw=true "Data Distribution")
+![Data Distribution](../images/isoforest-visualize-data.jpg?raw=true "Data Distribution")
 
 A few other outliers in trading volume re-appeared over the year, as evidenced by the boxplot below. Anomalous fluctuations in price are less visible due to general unpredictability of bitcoin price directions and their susceptibility to external forces.
 
@@ -51,7 +51,7 @@ ax = sns.boxplot(data=df[['Close', 'Volume_Adjusted']], orient="h", palette="Set
 ax.set_xlabel('Closing Price and Volume Distributions')
 ```
 
-![Boxplots](images/isoforest-boxplot-data.jpg?raw=true "Boxplots")
+![Boxplots](../images/isoforest-boxplot-data.jpg?raw=true "Boxplots")
 
 
 #### Perform Some Feature Engineering
@@ -71,7 +71,7 @@ df['VolumexPrice'] = df['NormalizedVolume'] * df['NormalizedPrice']
 
 On the plot generated below, we can see that the true volume-price anomalies occurred at around February 2021 (due to reasons outlined above) and May-June 2021 period, when drastic changes in price were not supported by the same change in trading volumes. This points out the fact that prices were not driven by market forces but rather by external conditions. The external conditions pertain to Tesla's comments about stopping to accept Bitcoin payments, Donald Trump's statements about bitcoin scams and Chinese crypto bans.
 
-![Volume-Price Interaction](images/isoforest-volume-price.jpg?raw=true "Normalized BTC Volume x Price")
+![Volume-Price Interaction](../images/isoforest-volume-price.jpg?raw=true "Normalized BTC Volume x Price")
 
 #### Instantiate Isolation Forest
 
