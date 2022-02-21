@@ -28,7 +28,7 @@ In particular, here is how the forest works:
 3. This branching workflow continues until either maximum tree depth is reached or each data point is completely isolated. This process is repeated for each tree in the ensemble.
 4. Depending on the depth required to reach a data point, anomaly scores are assigned. The more negative the score, the more anomalous it is.
 
-![Isolation Forest Structure](../images/isoforest.png?raw=true "Isolation Forest")
+![Isolation Forest Structure](https://purrwhite.github.io/purrwhite.github.io/images/isoforest.png?raw=true "Isolation Forest")
 
 ### Python Implementation
 
