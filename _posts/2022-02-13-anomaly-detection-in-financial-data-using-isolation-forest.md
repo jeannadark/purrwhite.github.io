@@ -30,6 +30,8 @@ In particular, here is how the forest works:
 
 ![Isolation Forest Structure](/assets/isoforest.png)
 
+[Source of the image](https://www.researchgate.net/figure/Overview-of-the-isolation-forest-method-Light-green-circles-represent-common-normal_fig3_341629782)
+
 ### Python Implementation
 
 Below, we will analyze the cryptocurrency market anomalies over the past 12 months in Python. The dataset is obtained from Yahoo!Finance and spans a year's worth of closing price data and trading volume for BTC.
