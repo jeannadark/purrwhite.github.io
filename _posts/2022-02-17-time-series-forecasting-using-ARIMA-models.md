@@ -1,15 +1,8 @@
 ## Time Series Forecasting Using ARIMA models
 
-```
-Ever curious about the next-day price of your stock investment? 
-Or perhaps you would like to have a proxy for your next-day sales? 
-Did you know that you do not even have to look for factors 
-beyond your historical prices or sales to get this approximate estimate? 
-Computing this sounds complex but is, in fact, quite simple. 
-In this post, we will investigate how to forecast time series of your choice 
-using such sophisticated models as ARIMA - 
-and I will make it as easy as possible to digest & apply!
-```
+
+> Ever curious about the next day price of your stock investment? Or perhaps you would like to have a proxy for your next-day sales? Did you know that you do not even have to look for factors beyond your historical prices or sales to get this approximate estimate? Computing this sounds complex but is, in fact, quite simple. In this post, we will investigate how to forecast time series of your choice using such sophisticated models as ARIMA - and I will make it as easy as possible to digest & apply!
+
 
 ### What is Time Series?
 
