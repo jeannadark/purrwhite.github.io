@@ -181,4 +181,18 @@ We can visualize the model residuals to judge if we have a modelling bias. Resid
 ```python
 model_fit.resid.plot()
 ```
-![ARIMA_residuals](/assets/ARIMA_residuals.png)
+![ARIMA_residuals](/assets/arima_residuals.png)
+
+#### Model Prediction & Performance Measure
+
+Use the `.forecast()` method with specified start and end dates to predict future values of the test dataset, and then compare against the true values using such performance measures, as *MSE* (Mean Squared Error).
+
+```python
+# get predictions from June 2 to August 15
+predictions = model_fit.predict(start='2022-06-02', end='2022-08-15')
+
+# print out the MSE of the model
+mean_squared_error(test['Exponential Decay Adj Close'].values, predictions)
+```
+
+The MSE we obtained is around 68, which is quite high but can be decreased if we consider a larger dataset, say over 5 years.
