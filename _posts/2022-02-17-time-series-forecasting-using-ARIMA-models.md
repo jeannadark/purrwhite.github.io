@@ -122,9 +122,9 @@ df['Adj Close 2nd Order Differencing'] = df['Adj Close'].diff().diff().fillna(0)
 As observed on the graphs below (which portray the mean of the transformed series over time), exponential decay works best in making the data stationary. This is because its mean is stabler than in other methods across all time periods. We can also judge its performance by performing the Augmented Dickey-Fuller test again, if we wish.
 
 Log-transform                 |  Exponential Decay
-:-------------------------:   |:--------------------------------:
-![log](assets/arima_log.png)  |  ![decay](assets/arima_decay.png)
+:---------------------------: |:---------------------------------:
+![log](/assets/arima_log.png) |  ![decay](/assets/arima_decay.png)
 
 Time-shifting                   |  Second-order Differencing
-:-------------------------:     |:------------------------------:
-![time](assets/arima_time.png)  |  ![diff](assets/arima_diff.png)
+:-----------------------------: |:-------------------------------:
+![time](/assets/arima_time.png) |  ![diff](/assets/arima_diff.png)
