@@ -2,7 +2,7 @@
 
 ```
 Ever curious about the next-day price of your stock investment? 
-Or perhaps you'd like to have a proxy for your next-day sales? 
+Or perhaps you would like to have a proxy for your next-day sales? 
 Did you know that you do not even have to look for factors 
 beyond your historical prices or sales to get this approximate estimate? 
 Computing this sounds complex but is, in fact, quite simple. 
