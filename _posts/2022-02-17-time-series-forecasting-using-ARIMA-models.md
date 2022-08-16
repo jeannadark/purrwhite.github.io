@@ -15,17 +15,19 @@ and I will make it as easy as possible to digest & apply!
 
 In simplest terms, time series is the sequential data you have over some time period, be it a week, a month, a year or more. Any time series can be decomposed into three components:
 
-1. trend: general upward or downward movement
-2. seasonality: any patterns observed at specific times, e.g. in summer
-3. noise: random spikes and troughs unrelated to any fundamental factors
+1. **trend**: general upward or downward movement
+2. **seasonality**: any patterns observed at specific times, e.g. summer heat or December sales
+3. **noise**: random spikes and troughs unrelated to any fundamental factors
 
 ### ARIMA - Who Dreamed Up This Schema?
 
-ARIMA stands for AutoRegressive Integrated Moving Average, and is also known as the Box-Jenkins model. Generally, this model assumes you can predict the future values using the past. 
+ARIMA stands for **AutoRegressive Integrated Moving Average** - phew, it's pretty long & heavy! It is also known as the Box-Jenkins model. Generally, this model assumes you can predict the future values using the past. 
 
-- The autoregressive component captures the relationship between current and past values.
-- The integration component assumes that data is stationary, meaning its mean does not change over time.
-- The moving average component captures the relationship between a current data point and its residual moving error.
+- The **autoregressive component** captures the relationship between current and past values.
+- The **integration component** assumes that data is stationary, meaning its mean does not change over time.
+- The **moving average component** captures the relationship between a current data point and its residual moving error.
+
+Stationarity is important as an assumption due to the fact that we have to forecast an expected value which shall remain the same regardless of any externalities. 
 
 ARIMA lives within `statsmodels` Python library and has three parameters: *p* - the number of autoregressive terms, *d* - differencing order, *q* - the number of moving average terms.
 
@@ -50,7 +52,7 @@ from statsmodels.graphics.tsaplots import plot_acf, plot_pacf
 
 #### Read and Visualize the Data
 
-First, let's read in the data from a saved *.csv* file and set its index to the *Date* column. We are interested in the *Adjusted Close* price, in particular. Note that the historical data can be downloaded from Yahoo!Finance, or alternatively accessed directly using the `yfinance` package (see the [previous blogpost](https://purrwhite.github.io/2022/02/16/accessing-financial-data-with-python.html)).
+First, let's read in the data from a saved *.csv* file and set its index to the *Date* column. We are interested in the *Adjusted Close* price, in particular. Note that the historical data can be downloaded from Yahoo!Finance, or alternatively accessed directly using Python's `yfinance` package (see the [previous blogpost](https://purrwhite.github.io/2022/02/16/accessing-financial-data-with-python.html)).
 
 ```python
 df = pd.read_csv('../Downloads/DIS.csv')
@@ -128,3 +130,55 @@ Log-transform                 |  Exponential Decay
 Time-shifting                   |  Second-order Differencing
 :-----------------------------: |:-------------------------------:
 ![time](/assets/arima_time.png) |  ![diff](/assets/arima_diff.png)
+
+#### How Do I Pick the Right Parameters for ARIMA?
+
+To pick the right *p* & *q* parameters for ARIMA, autocorrelation and partial autocorrelation plots are a go-to. The autocorrelation plot shows the correlation coefficient of the time series with its own lag, and hence is useful for selecting the window for a moving average. The reason for that is that you may observe over which lag period the correlation of the time series with itself still holds.
+
+In the graph below, we have plotted the autocorrelation plot for the exponentially decayed time series, and based on our observations the correlation is quite significant (represented by big spikes) across all lag-intervals. Hence, we can choose the first 5 most significant ones as our *q* parameter. Here a spike at lag 1 means there's a strong correlation between a value and its preceding data point, while a spike at lag 2 means there's a strong correlation between a value and the one preceding it by two steps back.
+
+The partial autocorrelation plot is similar to the former but explains the correlation between shorter time periods that lags do not necessarily get to explain. To make it simpler, if the autocorrelation plot explains the relationship between points that are *k* distances apart, the partial autocorrelation plot explains the relationship between points that are *k* distances apart but conditional on values in-between. This can help us select the right value for our *p* parameter, which seems to be 2 (one of the biggest spikes). 
+
+```python
+# plot the autocorrelation plot of the exponentially decayed adjusted close
+plot_acf(df['Exponential Decay Adj Close'].fillna(0))
+
+# plot the partial autocorrelation plot of the exponentially decayed adjusted close
+plot_pacf(df['Exponential Decay Adj Close'].fillna(0))
+```
+
+Autocorrelation                       |  Partial Autocorrelation
+:---------------------------------:   |:-------------------------------------:
+![ARIMA_acf](/assets/arima_log.png)   |  ![ARIMA_PACF](/assets/arima_pacf.png)
+
+#### Train the Model
+
+First, we can divide our data into train and test sets using an 80% / 20% split. The important thing to note here is that the test data should always come **after** train data sequentially, since we are dealing with **time**.
+
+```python
+# train is 80% of data
+train = df.iloc[:int(len(df)*0.8), :]
+
+# test is 20% of data
+test = df.iloc[int(len(df)*0.8):, :]
+```
+
+Next, we call the ARIMA model with *p=2*, *q=3* and optionally *d=1* to perform first-order differencing on our exponentially decayed time series for more stationarity. This is followed by the `.fit()` method to train the model on our data.
+
+```python
+# instantiate ARIMA with given parameters
+model = ARIMA(df['Exponential Decay Adj Close'].dropna(), order=(3, 1, 3))
+
+# train the model
+model_fit = model.fit()
+
+# view the model summary
+print(model_fit.summary())
+```
+
+We can visualize the model residuals to judge if we have a modelling bias. Residual plots help to determine whether the modeling error is simply a random error or a repeating pattern, in which case there's a bias. On the graph below, we can see residuals being quite close to zero and displaying no particular pattern - hence, we can say there's no bias.
+
+```python
+model_fit.resid.plot()
+```
+![ARIMA_residuals](/assets/ARIMA_residuals.png)
