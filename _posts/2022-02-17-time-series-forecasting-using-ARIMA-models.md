@@ -93,3 +93,38 @@ df['Adj Close Rolling Mean (14)'] = df['Adj Close'].rolling(14).mean().fillna(0)
 
 The 14-day rolling mean changes over time, increasing in some periods and decreasing in others. Hence, the data is not stationary. Moreover, using `adfuller(df['Adj Close'])` prints out a useful summary with a p-value exceeding the 5% significance threshold. This, in turn, is indicative of a non-stationary time series.
 
+#### Making the Data Stationary
+
+We can make the data stationary using any of the methods below:
+
+1. logging: helps to make the data stationary by linearizing its growth over time
+2. time-shifting: helps to de-trend the data by shifting over some time period
+3. exponential decaying: smoothes the data trend by delaying the spikes and troughs 
+4. first- or second-order differencing: removes changes in the time series and stabilizes the mean
+
+```python
+# make data stationary by logging
+df['Logged Adj Close'] = np.log(df['Adj Close']) - df['Adj Close Rolling Mean (14)']
+
+# decay logged values over 14-day period to half and find mean
+df['Exponential Decay Adj Close'] = df['Logged Adj Close'].ewm(halflife=14, min_periods=0, adjust=True).mean()
+
+# find difference between decay and logged value
+df['Exponential Decay Adj Close'] = df['Logged Adj Close'] - df['Exponential Decay Adj Close']
+
+# shift by 1 time period
+df['Logged Shifted Adj Close'] = df['Logged Adj Close'] - df['Logged Adj Close'].shift(1)
+
+# second order differencing
+df['Adj Close 2nd Order Differencing'] = df['Adj Close'].diff().diff().fillna(0)
+```
+
+As observed on the graphs below (which portray the mean of the transformed series over time), exponential decay works best in making the data stationary. This is because its mean is stabler than in other methods across all time periods. We can also judge its performance by performing the Augmented Dickey-Fuller test again, if we wish.
+
+Log-transform                 |  Exponential Decay
+:-------------------------:   |:--------------------------------:
+![log](assets/arima_log.png)  |  ![decay](assets/arima_decay.png)
+
+Time-shifting                   |  Second-order Differencing
+:-------------------------:     |:------------------------------:
+![time](assets/arima_time.png)  |  ![diff](assets/arima_diff.png)
